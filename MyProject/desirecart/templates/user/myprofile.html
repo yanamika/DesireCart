@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Update Profile</title>
+    {% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 text-center h2">MY PROFILE</div>
+    </div>
+    {% if udetails %}
+    {% for r in udetails %}
+    <div class="row bg-light my-5 p-5">
+        <div class="col-sm-2">
+            <img src="/{{r.userpic}}" style="width:100%" class="img-thumbnail"/>
+        </div>
+        <div class="col-sm-10">
+            <b>NAME :</b>{{r.name}}<br/>
+            <b>MOBILE :</b> {{r.mobile}}<br/>
+            <b>EMAIL :</b> {{r.email}}<br/>
+            <b>ADDRESS :</b> {{r.address}}<br/>
+            <input type="button" id="btnEdit" class="btn btn-danger" value="Edit Profile"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 p-4 my-4 bg-dark text-light editprofileform" style="display:none;">
+         <form method="post" action="/user/profile/" enctype="multipart/form-data">
+            {% csrf_token %}
+             Name<input type="text" name="name" value="{{r.name}}" class="form-control" value=""/>
+            Mobile<input type="number" name="mobile" value="{{r.mobile}}" class="form-control" value=""/>
+            Picture<input type="file" name="fu" class="form-control" value=""/>
+            Address<textarea class="form-control" name="address">{{r.address}}</textarea><br/>
+            <input type="submit" class="btn btn-success" value="Update"/>
+         </form>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    {% endfor%}
+    {% endif %}
+</div>
+<script>
+$(document).ready(function(){
+$("#btnEdit").click(function(){
+$(".editprofileform").slideDown("slow")
+})
+})
+</script>
+{% endblock %}
+
